@@ -3,7 +3,7 @@ import { User } from '../database/entities/user.entity';
 import { UserRepository } from './repository';
 
 
-export class userService {
+export class UserService {
     private userRepository = new UserRepository();
 
     async createUser(user: User): Promise<User> {
