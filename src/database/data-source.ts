@@ -13,6 +13,7 @@ export const PostgresDataSource = new DataSource({
     username: DB_USERNAME,
     password: DB_PASSWORD,
     database: DB_DATABASE,
-    entities: ['src/database/entities/*.ts'],
-    migrations: ['src/database/migrations/*.ts']
+    entities: [`${__dirname}/**/*.entity{.js,.ts}`],
+    migrations: [`${__dirname}/migrations/*{.js,.ts}`],
+    migrationsRun: true
 });
