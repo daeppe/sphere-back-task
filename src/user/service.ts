@@ -7,6 +7,10 @@ export class UserService {
     private userRepository = new UserRepository();
 
     async createUser(user: User): Promise<User> {
+        if (!user.name || !user.email || !user.password) {
+            throw new Error('Todos os campos (name, email e password) são obrigatórios para criar um novo usuário.');
+        }
+
         const existingUser = await this.userRepository.findByEmail(user.email);
         if (existingUser) {
             throw new Error('O e-mail já está sendo usado por outro usuário.');
@@ -31,6 +35,10 @@ export class UserService {
 
         if (!user) {
             throw new Error('Usuário não encontrado.');
+        }
+
+        if (!password) {
+            throw new Error('Senha não preenchida.');
         }
 
         const isPasswordMatch = await bcrypt.compare(password, user.password);

@@ -1,12 +1,14 @@
 import 'dotenv/config';
 import express from 'express';
 import { PostgresDataSource } from './database/data-source';
+import { appRouter } from './route';
 
 const SERVER_PORT = process.env.SERVER_PORT || undefined;
 
 const app = express();
 
 app.use(express.json());
+app.use('/api', appRouter);
 
 app.get('/', (req, res) => {
     res.json(`Projeto Sphere Back Task, ${Date()}`);
