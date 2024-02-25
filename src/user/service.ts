@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as bcrypt from 'bcrypt';
 import { User } from '../database/entities/user.entity';
 import { UserRepository } from './repository';
@@ -6,7 +7,7 @@ import { UserRepository } from './repository';
 export class UserService {
     private userRepository = new UserRepository();
 
-    async createUser(user: User): Promise<User> {
+    async createUser(user: User): Promise<Partial<User>> {
         if (!user.name || !user.email || !user.password) {
             throw new Error('Todos os campos (name, email e password) são obrigatórios para criar um novo usuário.');
         }
@@ -23,40 +24,56 @@ export class UserService {
             email: user.email,
             password: hashedPassword,
         };
-        return this.userRepository.create(newUser);
+
+        const userOutput = await this.userRepository.create(newUser);
+
+        const { password, ...userWithoutPassword } = userOutput!;
+
+        return userWithoutPassword;
+
     }
 
     async findByEmail(email: string): Promise<User | undefined> {
         return this.userRepository.findByEmail(email);
     }
 
-    async login(email: string, password: string): Promise<User | undefined> {
+    async login(email: string, passwordInput: string): Promise<Partial<User> | undefined> {
         const user = await this.findByEmail(email);
 
         if (!user) {
             throw new Error('Usuário não encontrado.');
         }
 
-        if (!password) {
+        if (!passwordInput) {
             throw new Error('Senha não preenchida.');
         }
 
-        const isPasswordMatch = await bcrypt.compare(password, user.password);
+        const isPasswordMatch = await bcrypt.compare(passwordInput, user.password);
 
         if (!isPasswordMatch) {
             throw new Error('Senha está incorreta');
         }
-        return this.userRepository.login(email);
+
+        const userOutput = await this.userRepository.login(email);
+
+        const { password, ...userWithoutPassword } = userOutput!;
+
+        return userWithoutPassword;
     }
 
-    async update(email: string, userData: Partial<User>): Promise<User> {
+    async update(email: string, userData: Partial<User>): Promise<Partial<User>> {
         const oldUser = await this.findByEmail(email);
-        this.userRepository.update(oldUser!.id, userData);
+        await this.userRepository.update(oldUser!.id, userData);
         const newUser = await this.findByEmail(email);
-        return newUser!;
+        const { password, ...userWithoutPassword } = newUser!;
+        return userWithoutPassword;
     }
 
-    async delete(id: string): Promise<void> {
-        return this.userRepository.delete(id);
+    async delete(email: string): Promise<void> {
+        const user = await this.findByEmail(email);
+        if (!user) {
+            throw new Error('Usuário não encontrado.');
+        }
+        return this.userRepository.delete(user.id);
     }
 }
