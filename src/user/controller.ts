@@ -1,11 +1,11 @@
 import { Response } from 'express';
 import { UserService } from './service';
-import CustomRequest from '../interfaces/CustomRequest';
+import UserCustomRequest from '../interfaces/UserCustomRequest';
 
 const userService = new UserService();
 export class UserController {
 
-    async create(request: CustomRequest, response: Response) {
+    async create(request: UserCustomRequest, response: Response) {
         try {
             const output = await userService.createUser(request.userData);
             response.json(output);
@@ -14,7 +14,7 @@ export class UserController {
         }
     }
 
-    async login(request: CustomRequest, response: Response) {
+    async login(request: UserCustomRequest, response: Response) {
         try {
             const { email, password } = request.userData;
             const output = await userService.login(email, password);
@@ -24,7 +24,7 @@ export class UserController {
         }
     }
 
-    async update(request: CustomRequest, response: Response) {
+    async update(request: UserCustomRequest, response: Response) {
         try {
             const { email } = request.userData;
             const output = await userService.update(email, request.body);
@@ -34,7 +34,7 @@ export class UserController {
         }
     }
 
-    async delete(request: CustomRequest, response: Response) {
+    async delete(request: UserCustomRequest, response: Response) {
         try {
             const { id } = request.userData;
             const output = await userService.delete(id);
