@@ -2,14 +2,14 @@ import { PostgresDataSource as db } from '../database/data-source';
 import { User } from '../database/entities/user.entity';
 
 export class UserRepository {
-    private userRepository = db.getRepository(User);
+    private userDb = db.getRepository(User);
 
     async create(user: Partial<User>): Promise<User> {
-        return this.userRepository.save(user);
+        return this.userDb.save(user);
     }
 
     async findByEmail(email: string): Promise<User | undefined> {
-        const user = await this.userRepository.findOne({ where: { email } });
+        const user = await this.userDb.findOne({ where: { email } });
         return user || undefined;
 
     }
@@ -19,10 +19,10 @@ export class UserRepository {
     }
 
     async update(id: string, userData: Partial<User>): Promise<void> {
-        await this.userRepository.update(id, userData);
+        await this.userDb.update(id, userData);
     }
 
     async delete(id: string): Promise<void> {
-        await this.userRepository.delete(id);
+        await this.userDb.delete(id);
     }
 }
