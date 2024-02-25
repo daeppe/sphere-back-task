@@ -18,8 +18,10 @@ export class TaskRepository {
         return notCompletedTask;
     }
 
-    async toComplete(task: Task): Promise<void> {
+    async toComplete(task: Task): Promise<Task> {
         await this.taskDb.update(task.id, { ...task, isCompleted: true });
+        const taskUpdated = await this.taskDb.findOne({ where: { id: task.id } });
+        return taskUpdated!;
     }
 
     async delete(taskId: string): Promise<void> {
