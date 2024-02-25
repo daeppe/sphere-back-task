@@ -24,6 +24,11 @@ export class TaskRepository {
         return taskUpdated!;
     }
 
+    async findtask(id: string): Promise<Task | undefined> {
+        const task = await this.taskDb.findOne({ where: { id } });
+        return task!;
+    }
+
     async delete(taskId: string): Promise<void> {
         await this.taskDb.delete(taskId);
     }

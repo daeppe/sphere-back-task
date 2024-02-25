@@ -36,11 +36,11 @@ export class UserController {
 
     async delete(request: UserCustomRequest, response: Response) {
         try {
-            const { id } = request.userData;
-            const output = await userService.delete(id);
+            const { email } = request.userData;
+            const output = await userService.delete(email);
             response.status(204).json(output);
         } catch (error) {
-            response.json((error as Error).message);
+            response.status(404).json((error as Error).message);
         }
     }
 }

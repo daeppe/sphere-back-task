@@ -33,9 +33,9 @@ export class TaskController {
         }
     }
 
-    async toCompleted(request: TaskCustomRequest, response: Response) {
+    async toComplete(request: TaskCustomRequest, response: Response) {
         try {
-            const output = await taskService.toCompleted(request.taskData);
+            const output = await taskService.toComplete(request.taskData);
             response.json(output);
         } catch (error) {
             response.status(400).json((error as Error).message);

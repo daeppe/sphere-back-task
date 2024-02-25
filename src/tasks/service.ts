@@ -16,11 +16,15 @@ export class TaskService {
         return this.taskRepository.findTaskNotCompleted(userId);
     }
 
-    async toCompleted(task: Task): Promise<Task> {
+    async toComplete(task: Task): Promise<Task> {
         return this.taskRepository.toComplete(task);
     }
 
     async delete(taskId: string): Promise<void> {
+        const task = await this.taskRepository.findtask(taskId);
+        if (!task) {
+            throw new Error('Task não encontrado.');
+        }
         await this.taskRepository.delete(taskId);
     }
 }
