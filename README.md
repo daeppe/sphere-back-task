@@ -144,15 +144,13 @@ Status 204
 }
 ```
 ***
-**URL:** /api/task/findtaskcompleted
+**URL:** /api/task/findtaskcompleted:userId
 
 **Método HTTP:** Get
 
-**Body:** 
-```JSON
-{
-	"user": "94876fcc-ebb5-4df8-a184-9972096dfef1"
-}
+**URL:** 
+```
+api/task/findtaskcompleted/94876fcc-ebb5-4df8-a184-9972096dfef1
 ```
 **Resposta:**
 ```JSON
@@ -167,15 +165,14 @@ Status 204
 ]
 ```
 ***
-**URL:** /api/task/findtasknotcompleted
+**URL:** /api/task/findtasknotcompleted:id
 
 **Método HTTP:** Get
 
-**Body:** 
-```JSON
-{
-	"user": "94876fcc-ebb5-4df8-a184-9972096dfef1"
-}
+**URL:** 
+```
+api/task/findtasknotcompleted/94876fcc-ebb5-4df8-a184-9972096dfef1
+
 ```
 **Resposta:**
 ```JSON
@@ -208,14 +205,14 @@ Status 204
 }
 ```
 ***
-**URL:** /api/task/delete
+**URL:** /api/task/delete/:id
 
 **Método HTTP:** Delete
 
-**Body:** 
-```JSON
+**URL:** 
+```
 {
-	"id": "97e61277-a13e-4a10-a7ca-b0f1e871f2e1"
+	/api/task/delete/97e61277-a13e-4a10-a7ca-b0f1e871f2e1
 }
 ```
 **Resposta:**

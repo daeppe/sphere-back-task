@@ -63,7 +63,8 @@ export class UserService {
 
     async update(email: string, userData: Partial<User>): Promise<Partial<User>> {
         const oldUser = await this.findByEmail(email);
-        await this.userRepository.update(oldUser!.id, userData);
+        const hashedPassword = await bcrypt.hash(oldUser!.password, 10);
+        await this.userRepository.update(oldUser!.id, { ...oldUser, password: hashedPassword });
         const newUser = await this.findByEmail(email);
         const { password, ...userWithoutPassword } = newUser!;
         return userWithoutPassword;

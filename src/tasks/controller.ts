@@ -15,8 +15,8 @@ export class TaskController {
 
     async findTaskCompleted(request: TaskCustomRequest, response: Response) {
         try {
-            const { user } = request.taskData;
-            const output = await taskService.findTaskCompleted(String(user));
+            const { userId } = request.params;
+            const output = await taskService.findTaskCompleted(String(userId));
             response.json(output);
         } catch (error) {
             response.status(400).json((error as Error).message);
@@ -25,8 +25,8 @@ export class TaskController {
 
     async findTaskNotCompleted(request: TaskCustomRequest, response: Response) {
         try {
-            const { user } = request.taskData;
-            const output = await taskService.findTaskNotCompleted(String(user));
+            const { userId } = request.params;
+            const output = await taskService.findTaskNotCompleted(String(userId));
             response.json(output);
         } catch (error) {
             response.status(400).json((error as Error).message);
@@ -44,7 +44,7 @@ export class TaskController {
 
     async delete(request: TaskCustomRequest, response: Response) {
         try {
-            const { id } = request.taskData;
+            const { id } = request.params;
             const output = await taskService.delete(id);
             response.status(204).json(output);
         } catch (error) {
